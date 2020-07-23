@@ -120,7 +120,7 @@ def plotting_actor():
 
 # 1.4. Putting all together
 def question1():
-    print('You chose Menu Option 1 – Most successful directors or actors', 
+    print('\nYou chose Menu Option 1 – Most successful directors or actors', 
           '\nPlease choose your option:',
           '\n1. Successful directors',
           '\n2. Successful actors')
@@ -143,6 +143,7 @@ def question1():
 
 # comparing imdb scores between 2 selected movies
 def comp_imdb_scores():
+    print('\na. IBMD scores')
     global movie1
     global movie2
     global movie1_color
@@ -171,6 +172,7 @@ def comp_imdb_scores():
 
 # comparing gross earnings between 2 selected movies
 def comp_gross_earnings():
+    print('\nb. Gross Earnings')
     global movie1
     global movie2
     global movie1_color
@@ -203,6 +205,7 @@ def comp_gross_earnings():
 
 # comparing facebook likes between 2 selected movies
 def comp_facebook_likes():
+    print('\nc. Movie Facebook Likes')
     global movie1
     global movie2
     global movie1_color
@@ -236,7 +239,7 @@ def question2():
     global movie2
     global movie1_color
     global movie2_color
-    print('You chose Menu Option 2 - Film Comparison')
+    print('\nYou chose Menu Option 2 - Film Comparison')
     movie1 = input('Please enter your first movie: ')
     while movie1 not in sorted(df['movie_title']):
         print('\nInvalid input', 'Please try again')
@@ -245,25 +248,30 @@ def question2():
     while movie2 not in sorted(df['movie_title']):
         print('\nInvalid input', 'Please try again')
         movie2 = input('Please enter again your second movie: ')
-    print('Now choose the comparison option:',
-          '\n1. IBMD scores',
-          '\n2. Gross Earnings',
-          '\n3.Movie Facebook Likes')
+    # print('Now choose the comparison option:',
+    #       '\n1. IBMD scores',
+    #       '\n2. Gross Earnings',
+    #       '\n3. Movie Facebook Likes')
     movie1_color = 'orange'
     movie2_color = 'deepskyblue'
-    choice = input('Please enter your option (1,2 or 3): ')
-    while choice not in ['1','2','3']:
-        print('Please enter the valid option', '\nRemember:', 
-              '\n1. IBMD scores',
-              '\n2, Gross Earnings',
-              '\n3.Movie Facebook Likes')
-        choice = input('Please enter again your option (1,2 or 3): ')
-    if choice == '1':
-        comp_imdb_scores()
-    elif choice == '2':
-        comp_gross_earnings()
-    else:
-        comp_facebook_likes()
+    print('\nComparison between your first movie ' + movie1 + ' and your second movie ' + movie2 + ' :')
+    comp_imdb_scores()
+    comp_gross_earnings()
+    comp_facebook_likes()
+
+    # choice = input('Please enter your option (1,2 or 3): ')
+    # while choice not in ['1','2','3']:
+    #     print('Please enter the valid option', '\nRemember:', 
+    #           '\n1. IBMD scores',
+    #           '\n2, Gross Earnings',
+    #           '\n3.Movie Facebook Likes')
+    #     choice = input('Please enter again your option (1,2 or 3): ')
+    # if choice == '1':
+    #     comp_imdb_scores()
+    # elif choice == '2':
+    #     comp_gross_earnings()
+    # else:
+    #     comp_facebook_likes()
 
 
 ##### MENU OPTION 3 #####
@@ -278,7 +286,7 @@ def gross_plotting():
     selected_gross_by_year['gross'] = selected_gross_by_year['gross']/1e6
     
     # change 'title_year' to integer value
-    selected_gross_by_year['title_year'] = selected_gross_by_year['title_year'].astype('int64')
+    selected_gross_by_year['title_year'] = selected_gross_by_year['title_year']
     
     # calculating gross's maximun, minimum, mean and median
     max_gross_by_year = selected_gross_by_year.groupby('title_year').max()['gross']
@@ -330,16 +338,16 @@ def gross_plotting():
 def question3():
     global year_start
     global year_end
-    print('You chose Menu Option 3 - Analyse the distribution of gross earnings')
+    print('\nYou chose Menu Option 3 - Analyse the distribution of gross earnings')
     year_start = input('Please enter the starting year: ')
     while checking_value_type(year_start) == False or (
-        checking_value_type(year_start) == True and ((int(year_start) < df['title_year'].min().astype('int64')) or 
-                                                     (int(year_start) > df['title_year'].max().astype('int64')) )):
+        checking_value_type(year_start) == True and ((int(year_start) < df['title_year'].min()) or 
+                                                     (int(year_start) > df['title_year'].max()) )):
         print('Please enter a correct starting year which must be', 
               '\n- A whole number', 
               '\n- In range of ',
-              df['title_year'].min().astype('int64'), ' - ',
-              df['title_year'].max().astype('int64'), ' inclusively')
+              df['title_year'].min(), ' - ',
+              df['title_year'].max(), ' inclusively')
         year_start = input('Please enter again the starting year: ')
     year_start = int(year_start)
     # dealing with non-consecutive years
@@ -365,14 +373,14 @@ def question3():
             
     year_end = input('Please enter the ending year: ')
     while checking_value_type(year_end) == False or (
-        checking_value_type(year_end) == True and ((int(year_end) < df['title_year'].min().astype('int64')) or 
-                                                   (int(year_end) > df['title_year'].max().astype('int64')) or 
+        checking_value_type(year_end) == True and ((int(year_end) < df['title_year'].min()) or 
+                                                   (int(year_end) > df['title_year'].max()) or 
                                                    (int(year_end) <= year_start ) )):
         print('Please enter a correct ending year which must be', 
               '\n- A whole number', 
               '\n- In range of ',
-              df['title_year'].min().astype('int64'), ' - ',
-              df['title_year'].max().astype('int64'), ' inclusively',
+              df['title_year'].min(), ' - ',
+              df['title_year'].max(), ' inclusively',
               '\n- Must be greater than ', year_start)
         year_end = input('Please enter again the ending year: ')
     year_end = int(year_end)
@@ -412,7 +420,8 @@ def genre_plotting():
     imdb_of_selected_genre = df[result]['imdb_score']
     
     # describe information
-    print(imdb_of_selected_genre.describe())
+    print('\n\na. Descriptive Statistics of the ' + genre + " movies' IMDB scores:\n")
+    print(imdb_of_selected_genre.describe().drop('count').to_string())
      
     # plotting1: Distribution of IMDB scores of the selected movie genre
     # creating a list of imdb scores for each of movie genre, i.e. 'imdb_of_all_genres'
@@ -456,6 +465,8 @@ def genre_plotting():
         r = df['genres'].str.contains(i)
         temp[i] = df[r].count()[0]
     k = pd.Series(temp)
+    print('\nb. Number of ' + genre + ' movies: ' + str(k[genre]) + ' movies')
+    # plotting
     plot4 = k.plot.bar(rot=90, title='BARPLOT OF NUMBER OF MOVIES FOR EACH MOVIE GENRE - ' + genre.upper() + ' (RED)', 
                        figsize = (16, 6), color = colors)
     plot4.set_xlabel("Movie Genre")
@@ -472,6 +483,9 @@ def genre_plotting():
         r = df['genres'].str.contains(i)
         gross_for_single_genre = df[r]['gross']/1e8
         gross_of_all_genres.append(gross_for_single_genre)
+    # descriptive statistics: 
+    print("\nc. Descriptive Statistics of the " + genre + " movies' gross earnings: \n")
+    print(gross_of_all_genres[genre_set.index(genre)].describe().drop('count').to_string())
     # plotting
     plt.figure(figsize=(16,6))
     box = plt.boxplot(gross_of_all_genres, patch_artist = True, showfliers = False)
@@ -495,6 +509,9 @@ def genre_plotting():
         r = df['genres'].str.contains(i)
         movie_FB_likes_for_single_genre = df[r]['movie_facebook_likes']
         movie_FB_likes_of_all_genres.append(movie_FB_likes_for_single_genre)
+    # descriptive statistics:
+    print("\nd. Descriptive Statistics of the " + genre + " movies' Facebook likes:\n")
+    print(movie_FB_likes_of_all_genres[genre_set.index(genre)].describe().drop('count').to_string())
     # plotting
     plt.figure(figsize=(16,6))
     box = plt.boxplot(movie_FB_likes_of_all_genres, patch_artist = True, showfliers = False)
@@ -514,7 +531,7 @@ def question4():
     global genre_set
     global genre
     
-    print('You chose Menu Option 4 - Genre Analysis')
+    print('\nYou chose Menu Option 4 - Genre Analysis')
     test = df['genres'].str.split('|')
     genre_set = set()
     for i in test:
@@ -549,8 +566,9 @@ def question5():
            'budget',
            'imdb_score']]
     
+    print('\nDescriptive Statistics of All movies :')
     print(temp['imdb_score'].describe())
-    print('Please wait a moment, this takes sometime to run')
+    print('\nPlease wait a moment, this takes sometime to run')
     
     sns.set(style="ticks")
     ax = sns.pairplot(temp)
@@ -610,9 +628,16 @@ def main():
             question4()
         elif menu == '5':
             question5()
+        print('Now you could choose AGAIN one of the following options',           
+              '\n1. Menu Option 1 – Most successful directors or actors', 
+              '\n2. Menu Option 2 – Movie Comparison',
+              '\n3. Menu Option 3 – Analyse the distribution of gross earnings',
+              '\n4. Menu Option 4 – Genre Analysis', 
+              '\n5. Menu Option 5 - IMDB scores vs. Other numeric variables', 
+              '\n6. Menu Option 6 – Exit')
         menu = input('Please enter an option for analysis (1,2,3,4,5 or 6): ')
     if menu == '6':
-        print ('Thank you!')
+        print ('\nThank you!')
         return None
         
 
